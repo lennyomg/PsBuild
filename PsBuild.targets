@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="PsBuildInit">
+    <PropertyGroup>
+      <PsBuildPowerShell>powershell.exe -NoProfile -NonInteractive -File </PsBuildPowerShell>
+      <PsBuildProperties>$(PsBuildProperties);MSBuildProjectDirectory=$(MSBuildProjectDirectory)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);MSBuildProjectDirectoryNoRoot=$(MSBuildProjectDirectoryNoRoot)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);MSBuildProjectExtension=$(MSBuildProjectExtension)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);MSBuildProjectFile=$(MSBuildProjectFile)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);MSBuildProjectFullPath=$(MSBuildProjectFullPath)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);MSBuildProjectName=$(MSBuildProjectName)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);AssemblyName=$(AssemblyName)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);BaseIntermediateOutputPath=$(BaseIntermediateOutputPath)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);BaseOutputPath=$(BaseOutputPath)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);Configuration=$(Configuration)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);IntermediateOutputPath=$(IntermediateOutputPath)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);OutDir=$(OutDir)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);OutputPath=$(OutputPath)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);OutputType=$(OutputType)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);Platform=$(Platform)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);TargetFrameworkVersion=$(TargetFrameworkVersion)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);ProjectDir=$(ProjectDir)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);ProjectExt=$(ProjectExt)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);ProjectFileName=$(ProjectFileName)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);ProjectName=$(ProjectName)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);ProjectPath=$(ProjectPath)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);PublishDir=$(PublishDir)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);SolutionDir=$(SolutionDir)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);SolutionExt=$(SolutionExt)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);SolutionFileName=$(SolutionFileName)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);SolutionName=$(SolutionName)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);SolutionPath=$(SolutionPath)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);TargetDir=$(TargetDir)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);TargetDirNoRoot=$(TargetDir.Substring(3))</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);TargetExt=$(TargetExt)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);TargetFileName=$(TargetFileName)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);TargetName=$(TargetName)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);TargetPath=$(TargetPath)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);TargetFramework=$(TargetFramework)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);StartAction=$(StartAction)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);StartProgram=$(StartProgram)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);RemoteDebugEnabled=$(RemoteDebugEnabled)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);RemoteDebugMachine=$(RemoteDebugMachine)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);StartArguments=$(StartArguments)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);StartWorkingDirectory=$(StartWorkingDirectory)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);PostBuildEvent=$(PostBuildEvent)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);PreBuildEvent=$(PreBuildEvent)</PsBuildProperties>
+      <PsBuildProperties>$(PsBuildProperties);ProjectGuid=$(ProjectGuid)</PsBuildProperties>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="PsBuildAfterBuild" AfterTargets="PostBuildEvent" DependsOnTargets="PsBuildInit">
+    <PropertyGroup>
+      <PsBuildScriptPath>$(SolutionDir).vs\$(SolutionFileName).ps1</PsBuildScriptPath>
+    </PropertyGroup>
+    <WriteLinesToFile Condition="!Exists('$(PsBuildScriptPath)')" File="$(PsBuildScriptPath)" Overwrite="false" />
+    <Exec Condition="Exists('$(PsBuildScriptPath)')" Command="$(PsBuildPowerShell) &quot;$(PsBuildScriptPath)&quot;"
+          ConsoleToMSBuild="true" EchoOff="false" LogStandardErrorAsError="true" ContinueOnError="false"
+          WorkingDirectory="$(SolutionDir)" EnvironmentVariables="$(PsBuildProperties)" />
+  </Target>
+
+</Project>
