@@ -10,7 +10,7 @@ PsBuild.targets creates and runs the PS1 script at `<SolutionDir>\.vs\<SolutionF
 
 ## Scripts
 
-A basic PS1 script might look like below. There are [more samples](https://github.com/lennyomg/PsBuild/wiki/Additional-code-samples), including copying files and accessing remote machines.
+A basic PS1 script might look like below. MSBuild properties are accessible via environment variables. There are [more samples](https://github.com/lennyomg/PsBuild/wiki/Additional-code-samples), including copying files and accessing remote machines.
 
 ```powershell
 # return
